@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+    <script src="./jquery.js"></script>
+    <script src="./jquery-ui.min.js"></script>
+    <script src="./bootstrap/bootstrap.min.js"></script>
+
+    <script src="./jquery.ui.touch-punch.min.js"></script>
+    <script src="./lodash.js"></script>
+    <script src="./highcharts.js"></script>
+    <script src="./data.js"></script>
+    <script src="./drilldown.js"></script>
+    <script src="./exporting.js"></script>
+    <script src="./elasticsearch.jquery.js"></script>
+    <script src="./js/charts.js"></script>
+
+
+    <!--script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"-->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css"/>
+
+
+    <link rel="stylesheet" href="./gridstack.css"/>
+    <link rel="stylesheet" href="./bootstrap/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/co.css"/>
+    <script src="./gridstack.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+</head>
+<body>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加面板</h4>
+            </div>
+            <div class="modal-body">
+
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active"><a href="#home"><i class="fa fa-area-chart"></i> 分区图</a></li>
+                    <li><a href="#profile"><i class="fa fa-bar-chart"></i> 柱状图</a></li>
+                    <li><a href="#messages"><i class="fa fa-pie-chart"></i> 饼图</a></li>
+                    <li><a href="#settings"><i class="fa fa-line-chart"></i> 折线图</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home">
+                        <div class="row">
+                            <div class="col-md-3">Title:</div>
+                            <div class="col-md-9">title text</div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane" id="profile">2</div>
+                    <div class="tab-pane" id="messages">3</div>
+                    <div class="tab-pane" id="settings">4</div>
+                </div>
+
+                <script>
+                    $(function () {
+//                        $('#myTab a:last').tab('show');//初始化显示哪个tab
+
+                        $('#myTab a').click(function (e) {
+                            e.preventDefault();//阻止a链接的跳转行为
+                            $(this).tab('show');//显示当前选中的链接及关联的content
+                        })
+                    })
+                </script>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addWidget();$('#myModal').modal('hide');">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <!--div class="header">
+        <div class="header-menu">
+            <div class="save_btn"></div>
+            <div class="new_btn"></div>
+        </div>
+
+    </div-->
+
+
+    <div class="row">
+        <div class="col-md-3"><img src="./logo.png"/></div>
+        <div class="col-md-7">
+            <div class="input-group menu_search">
+                <input type="text" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                  </span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div style="float: right;">
+                <span class="glyphicon glyphicon glyphicon glyphicon-plus main_menu" aria-hidden="true"
+                      style="margin-left: 20px" title="add new panel" onclick="$('#myModal').modal('show')"></span>
+                <span class="glyphicon glyphicon-floppy-disk main_menu" aria-hidden="true" onclick="serializationGrid()"></span>
+                <span class="glyphicon glyphicon glyphicon-folder-open main_menu" aria-hidden="true"></span>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row filter_collection">
+        <span class="badge filter_badge">111114 <span
+                class="glyphicon glyphicon glyphicon glyphicon glyphicon-pencil filter_remove"
+                aria-hidden="true"></span><span class="glyphicon glyphicon glyphicon glyphicon-remove filter_remove"
+                                                aria-hidden="true"></span></span>&nbsp;
+        <span class="badge filter_badge">111114 <span
+                class="glyphicon glyphicon glyphicon glyphicon glyphicon-pencil filter_remove"
+                aria-hidden="true"></span><span class="glyphicon glyphicon glyphicon glyphicon-remove filter_remove"
+                                                aria-hidden="true"></span></span>&nbsp;
+        <span class="badge filter_badge">111114 <span
+                class="glyphicon glyphicon glyphicon glyphicon glyphicon-pencil filter_remove"
+                aria-hidden="true"></span><span class="glyphicon glyphicon glyphicon glyphicon-remove filter_remove"
+                                                aria-hidden="true"></span></span>&nbsp;
+    </div>
+
+    <!--input type="button" value="add" onclick="getSize()"/-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="grid-stack">
+
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 20px;padding-bottom: 20px; text-align: center">
+        Copy right
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+
+    var grid = null;
+    $(function () {
+        var options = {
+            animate: true,
+            float: false,
+            vertical_margin: 20,
+        };
+
+
+        var client = new $.es.Client({
+            hosts: '192.168.102.241:9200',
+            log: 'trace'
+        });
+
+        client.ping({
+            requestTimeout: 30000,
+
+            // undocumented params are appended to the query string
+            hello: "elasticsearch!"
+        }, function (error) {
+            if (error) {
+                console.error('elasticsearch cluster is down!');
+            } else {
+                console.log('All is well');
+            }
+        });
+
+
+        $('.grid-stack').gridstack(options);
+        var serialization = [
+            {x: 0, y: 0, width: 2, height: 1, id: "a1", type: "1", title: "title 1"},
+            {x: 6, y: 10, width: 3, height: 2, id: "a2", type: "0", title: "title 2"},
+            {x: 6, y: 6, width: 3, height: 4, id: "a3", type: "0", title: "title 3"},
+            {x: 2, y: 0, width: 10, height: 6, id: "a4", type: "0", title: "中文"},
+            {x: 9, y: 6, width: 3, height: 6, id: "a5", type: "0", title: "title 5"},
+            {x: 0, y: 12, width: 12, height: 1, id: "a6", type: "0", title: "title 6"},
+            {x: 0, y: 2, width: 2, height: 2, id: "a7", type: "2", title: "title 7"},
+            {x: 0, y: 6, width: 6, height: 6, id: "a8", type: "3", title: "title 8"}
+        ];
+
+        serialization = GridStackUI.Utils.sort(serialization);
+
+        grid = $('.grid-stack').data('gridstack');
+        grid.remove_all();
+
+        _.each(serialization, function (node) {
+
+            if (node.type == 0) {
+                var el = grid.add_widget($('<div class="my_block" id="' + node.id + '" onmouseover="showBtn(\''+node.id+'\')" onmouseout="hideBtn(\''+node.id+'\')" title="'+node.title+'" type="'+node.type+'"><div class="grid-stack-item-content" > ' +
+                                '<div class="title">' + node.title + '</div><div class="setting"> ' +
+                                '<span class="glyphicon  glyphicon-remove panel_icon" id="close_btn_'+ node.id +'" aria-hidden="true" style="display:none" onclick="removeWidget(\''+node.id+'\')"/>' +
+                                '<span class="glyphicon glyphicon-pencil panel_icon"  id="edit_btn_'+ node.id +'" aria-hidden="true" style="display:none"/>' +
+                                '<span class="glyphicon glyphicon glyphicon-move panel_icon move"  id="move_btn_'+ node.id +'" aria-hidden="true" style="display:none" />' +
+                                '</div></div></div>'),
+                        node.x, node.y, node.width, node.height);
+//                console.log(el.append('<div class="my_content" id="' + node.id + '_inner">' + node.id + '</div>'));
+            }
+            else if (node.type == 2) {
+                var el = grid.add_widget($('<div class="my_block" id="' + node.id + '" onmouseover="showBtn(\''+node.id+'\')" onmouseout="hideBtn(\''+node.id+'\')" title="'+node.title+'" type="'+node.type+'"><div class="grid-stack-item-content has_bottom" id="' + node.id + '_inner" style="background-color: #21905D;"></div></div>'),
+                        node.x, node.y, node.width, node.height);
+            }
+            else if (node.type == 3) {
+                var el = grid.add_widget($('<div class="my_block" id="' + node.id + '" onmouseover="showBtn(\''+node.id+'\')" onmouseout="hideBtn(\''+node.id+'\')" title="'+node.title+'" type="'+node.type+'"><div class="grid-stack-item-content has_bottom" id="' + node.id + '_inner" style="background-color: #21905D;"></div></div>'),
+                        node.x, node.y, node.width, node.height);
+            }
+            else {
+                var el = grid.add_widget($('<div class="my_block" id="' + node.id + '" onmouseover="showBtn(\''+node.id+'\')" onmouseout="hideBtn(\''+node.id+'\')" title="'+node.title+'" type="'+node.type+'"><div class="grid-stack-item-content has_bottom" id="' + node.id + '_inner"></div></div>'),
+                        node.x, node.y, node.width, node.height);
+                var elContent = el.find("#" + node.id + "_inner");
+                console.log(elContent.append('</div><div class="row spark_container">' +
+                        '<div class="col-md-3 spark_text">50</div><div class="col-md-9 spark_chart" id="spark_container_' + node.id + '" style="height: 100%;">a</div></div>'));
+
+            }
+
+        });
+       // var widget = ['<div class="my_block" id="' + 'a9' + '" onmouseover="showBtn(\''+'a9'+'\')" onmouseout="hideBtn(\''+'a9'+'\')"><div class="grid-stack-item-content has_bottom" id="' + 'a9_inner' + '  style="background-color: #21905D;">1111</div></div>',0,0,5,5];
+
+        buildLine();
+        buildArea();
+        buildSparkLine();
+        buildBarChart();
+        //grid.add_widget.apply(grid, widget);
+        //buildPie();
+
+        $('.grid-stack').on('resizestart', function (event, ui) {
+            var grid = this;
+            var element = event.target;
+//            console.log($(element).find(".my_content"));
+
+            //$('#a4_inner').highcharts().destroy();
+        });
+
+        $('.grid-stack').on('resizestop', function (event, ui) {
+            var grid = this;
+            var element = event.target;
+
+
+//            console.log(element);
+            setTimeout("buildArea()", 500);
+            setTimeout("buildSparkLine()", 500);
+            setTimeout("buildBarChart()", 500);
+
+        });
+    });
+
+
+    function serializationGrid()
+    {
+        var res = _.map($('.grid-stack .grid-stack-item:visible'), function (el) {
+            el = $(el);
+            var node = el.data('_gridstack_node');
+            //console.log(node.el.attr("id"));
+            return {
+                id: node.el.attr("id"),
+                title: node.el.attr("title"),
+                type: node.el.attr("type"),
+                x: node.x,
+                y: node.y,
+                width: node.width,
+                height: node.height,
+
+            };
+        });
+        console.log(JSON.stringify(res));
+    }
+
+
+
+
+
+
+
+
+
+
+    function getSize() {
+
+//        var grid = $('.grid-stack').data('gridstack');
+//        var el = grid.get_cell_from_pixel({x: 1, y: 1});
+//        console.log(el);
+//        var el = grid.add_widget($('<div><div class="grid-stack-item-content" /><div/>'), 0, 0, 3, 6, true);
+//        console.log(el);
+    }
+    //    $('.grid-stack').on('resizestop', function (event, ui) {
+    //        var grid = this;
+    //        var element = event.target;
+    //        console.log(grid.cell_height());
+    //    });
+</script>
+<pre id="tsv" style="display:none">Browser Version	Total Market Share
+Microsoft Internet Explorer 8.0	26.61%
+Microsoft Internet Explorer 9.0	16.96%
+Chrome 18.0	8.01%
+Chrome 19.0	7.73%
+Firefox 12	6.72%
+Microsoft Internet Explorer 6.0	6.40%
+Firefox 11	4.72%
+Microsoft Internet Explorer 7.0	3.55%
+Safari 5.1	3.53%
+Firefox 13	2.16%
+Firefox 3.6	1.87%
+Opera 11.x	1.30%
+Chrome 17.0	1.13%
+Firefox 10	0.90%
+Safari 5.0	0.85%
+Firefox 9.0	0.65%
+Firefox 8.0	0.55%
+Firefox 4.0	0.50%
+Chrome 16.0	0.45%
+Firefox 3.0	0.36%
+Firefox 3.5	0.36%
+Firefox 6.0	0.32%
+Firefox 5.0	0.31%
+Firefox 7.0	0.29%
+Proprietary or Undetectable	0.29%
+Chrome 18.0 - Maxthon Edition	0.26%
+Chrome 14.0	0.25%
+Chrome 20.0	0.24%
+Chrome 15.0	0.18%
+Chrome 12.0	0.16%
+Opera 12.x	0.15%
+Safari 4.0	0.14%
+Chrome 13.0	0.13%
+Safari 4.1	0.12%
+Chrome 11.0	0.10%
+Firefox 14	0.10%
+Firefox 2.0	0.09%
+Chrome 10.0	0.09%
+Opera 10.x	0.09%
+Microsoft Internet Explorer 8.0 - Tencent Traveler Edition	0.09%</pre>
+</body>
+</html>

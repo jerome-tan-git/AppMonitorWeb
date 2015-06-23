@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <script src="./jquery.js"></script>
+    <script src="./js/co.js"></script>
+    <script src="./elasticsearch.js"></script>
+</head>
+<script>
+    var postData =
+    {
+        "aggs": {
+            "2": {
+                "terms": {
+                    "field": "method",
+                    "size": 5,
+                    "order": {
+                        "_count": "desc"
+                    }
+                }
+            }
+        }
+    };
+
+    getESResult(postData, function(data)
+    {
+        console.log(data);
+    }, function ()
+    {
+        console.log("error");
+    });
+
+//    var aj = $.ajax({
+//        url:'http://192.168.102.241:9200/logstash-*/_search?pretty=1 ',// 跳转到 action
+//        data:JSON.stringify(postData),
+//        type:'post',
+//        cache:false,
+//        dataType:'json',
+//        success:function(data) {
+//            console.log(data);
+//        },
+//        error : function() {
+//            // view("异常！");
+//            alert("异常！");
+//        }
+//    });
+//        var client = new elasticsearch.Client({
+//        host: '192.168.102.241:9200',
+//        log: 'trace'
+//    });
+//
+//
+//    client.search({
+//        "query": {
+//            "filtered": {
+//                "query": {
+//                    "query_string": {
+//                        "query": "*",
+//                        "analyze_wildcard": true
+//                    }
+//                },
+//                "filter": {
+//                    "bool": {
+//                        "must": [
+//                            {
+//                                "range": {
+//                                    "@timestamp": {
+//                                        "gte": 1425956926654,
+//                                        "lte": 1425961797242
+//                                    }
+//                                }
+//                            }
+//                        ],
+//                        "must_not": []
+//                    }
+//                }
+//            }
+//        },
+//        "size": 0,
+//        "aggs": {
+//            "2": {
+//                "date_histogram": {
+//                    "field": "@timestamp",
+//                    "interval": "1m",
+//                    "pre_zone": "+08:00",
+//                    "pre_zone_adjust_large_interval": true,
+//                    "min_doc_count": 1,
+//                    "extended_bounds": {
+//                        "min": 1425956926654,
+//                        "max": 1425961797242
+//                    }
+//                }
+//            }
+//        }
+//    }).then(function (data)
+//    {
+//        console.log(data);
+//    });
+</script>
+<body>
+
+</body>
+</html>

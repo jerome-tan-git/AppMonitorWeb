@@ -1,0 +1,189 @@
+body {
+    background-color: rgb(234, 234, 234);
+}
+
+.grid-stack {
+    /*background: lightgoldenrodyellow;*/
+}
+
+.grid-stack-item-content {
+    color: #2c3e50;
+    /*padding-left: 28px;*/
+    /*padding-top: 12px;*/
+    font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    /* background-color: #18bc9c;*/
+    /*height: 30px;*/
+    border: 1px solid #C8C4D3;
+    /*border-bottom: 0px;*/
+    background-color: white;
+}
+
+.small_block_title {
+    background-color: #cc0000;
+    top: 0px;
+    height: 50px;
+}
+
+.has_bottom {
+    border-bottom: 1px solid #C8C4D3;
+}
+
+.grid-stack {
+
+}
+
+.grid-stack .grid-stack {
+    /*margin: 0 -10px;*/
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.grid-stack .grid-stack .grid-stack-item-content {
+    background: lightpink;
+}
+
+.my_block {
+
+}
+
+.drag_handler {
+    color: #2c3e50;
+    text-align: center;
+    background-color: #18bc9c;
+
+}
+
+.my_content {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    right: 10px;
+    bottom: 0px;
+    border: 1px solid #C8C4D3;
+    border-top: 0px;
+    z-index: 89;
+    /*background-color: rgb(105, 120, 158);*/
+    /*padding-top: 30px;*/
+    font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding-left: 0px;
+    background-color: white;
+
+    text-align: center;
+    font-size: 33pt;
+    color: gainsboro;
+
+}
+
+.header {
+
+    width: 100%;
+    top: 0px;
+    height: 60px;
+    /*background: rgb(234, 234, 234) url(./logo.png) no-repeat 20px 1px;*/
+    z-index: 10;
+}
+
+.header-menu {
+    float: right;
+    margin-right: 23px;
+}
+
+.save_btn {
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: 10px 1px;
+    background-image: url(./iconmonstr-save-7-icon-24.png);
+    margin-top: 15px;
+    float: right;
+}
+
+.new_btn {
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: 10px 1px;
+    background-image: url(./iconmonstr-plus-5-icon-24.png);
+    margin-top: 15px;
+    float: right;
+}
+
+.main_menu {
+    font-size: 18px;
+    color: #A9A9A9;
+    padding-top: 20px;
+    padding-right: 25px;
+    cursor: pointer;
+}
+
+.grid-stack-item-content .title {
+    padding-left: 10px;
+    padding-top: 10px;
+    position: relative;
+    width: 60%;
+    float: left;
+    font-family: "STXihei", "»ªÎÄÏ¸ºÚ", "Microsoft YaHei", "Î¢ÈíÑÅºÚ";
+}
+
+.grid-stack-item-content .setting {
+    padding-right: 10px;
+    padding-top: 10px;
+    position: relative;
+    width: 40%;
+    float: right;
+}
+
+.panel_icon {
+    float: right;
+    padding-left: 7px;
+    padding-right: 2px;
+    font-size: 16px;
+    color: #666666;
+    cursor: pointer;
+}
+
+.move {
+    cursor: move;
+}
+
+.menu_search {
+    padding-top: 14px;
+    margin-bottom: 15px;
+}
+
+.filter_collection {
+    background-color: #E0E0E0;
+    margin-bottom: 15px;
+    padding-left: 10px;
+}
+
+.filter_remove {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.filter_badge {
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
+
+.spark_container {
+    height: 100%;
+}
+
+.spark_chart {
+    background-color: mediumblue;
+}
+
+.spark_text {
+    background-color: blue;
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    font-size: 27pt;
+    padding-left: 25px;
+    padding-top: 5px;
+}
