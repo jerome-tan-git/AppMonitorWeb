@@ -14,11 +14,13 @@ import org.elasticsearch.cluster.metadata.AliasMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 public class ESConnector {
 	public String getGridConfig()
 	{
+		
 		return null;
 	}
 	
@@ -26,10 +28,14 @@ public class ESConnector {
 	{
 		Client client = new TransportClient()
         .addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
-        IndicesStatusResponse response = client.admin().indices().prepareStatus().execute().actionGet();
-        for (String index : response.getIndices().keySet()) {
-            System.out.println(index);
+		SearchResponse response = client.prepareSearch("twitter").setTypes("type5").setQuery(QueryBuilders.queryString("*:*")).setExplain(true).execute().actionGet();
+		for(SearchHit hit : response.getHits()){
+            System.out.println(hit.getSource() + " | " + hit.getId());
         }
+//        IndicesStatusResponse response = client.admin().indices().prepareStatus().execute().actionGet();
+//        for (String index : response.getIndices().keySet()) {
+//            System.out.println(index);
+//        }
 
 //		ImmutableOpenMap<String,ImmutableOpenMap<String,AliasMetaData>> response =client.admin().cluster()
 //			    .prepareState().execute()
@@ -45,7 +51,7 @@ public class ESConnector {
 //		        .execute()
 //		        .actionGet();
 //		System.out.println(response.size());
-//		IndexResponse response = client.prepareIndex("twitter", "tweet_1", "2")
+//		IndexResponse response = client.prepareIndex("twitter", "type5")
 //		        .setSource(jsonBuilder()
 //		                    .startObject()
 //		                        .field("user", "kimchy")
