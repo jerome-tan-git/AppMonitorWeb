@@ -29,7 +29,10 @@ public class ReadAlertConfig extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		System.out.println("Init");
 		super.init(config);
-		System.out.println(getServletConfig().getServletContext().getInitParameter("contextConfigLocation"));
+		String ESUrl = getServletConfig().getServletContext().getInitParameter("ES_URL");
+		String ESPort = getServletConfig().getServletContext().getInitParameter("ES_PORT");
+		SystemConfig.getInstance().setConfig("ES_URL", ESUrl);
+		SystemConfig.getInstance().setConfig("ES_PORT", ESPort);
 		// TODO Auto-generated method stub
 	}
 

@@ -25,7 +25,11 @@
      Welcome to Tomcat
   </description>
   <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>avalible during application</param-value>
+    <param-name>ES_URL</param-name>
+    <param-value>localhost,localhost</param-value>
+  </context-param>
+  <context-param>
+    <param-name>ES_PORT</param-name>
+    <param-value>9300</param-value>
   </context-param>
 </web-app>
